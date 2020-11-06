@@ -1,0 +1,117 @@
+<?xml version='1.0'?>
+<sdf version='1.6'>
+	<world name="kin">
+
+	<include>
+		<uri>model://sun</uri>
+		<pose>0 0 100 0 0 0</pose>
+	</include>
+	
+
+	<include>
+		<uri>model://main_surf</uri>
+	</include>
+
+	<include>
+		<uri>model://wr</uri>
+	</include>
+
+	
+<include>
+	<uri>model://tree1</uri>
+	<name>tree1_0</name>
+	<pose>-1.54947463662 22.9281659238 10 0 0 4.27120201325</pose>
+</include>
+
+
+<include>
+	<uri>model://tree1</uri>
+	<name>tree1_1</name>
+	<pose>10.4908049736 -7.53207471609 10 0 0 0.774660105044</pose>
+</include>
+
+
+<include>
+	<uri>model://tree1</uri>
+	<name>tree1_2</name>
+	<pose>-0.288133870841 -25.6376380745 10 0 0 3.33748398993</pose>
+</include>
+
+
+<include>
+	<uri>model://tree1</uri>
+	<name>tree1_3</name>
+	<pose>31.7101761373 -14.6777765838 10 0 0 4.30312884022</pose>
+</include>
+
+
+<include>
+	<uri>model://tree1</uri>
+	<name>tree1_4</name>
+	<pose>7.54133145624 24.1107064554 10 0 0 2.10261427572</pose>
+</include>
+
+
+<include>
+	<uri>model://tree1</uri>
+	<name>tree1_5</name>
+	<pose>16.7150792807 -12.5760301581 10 0 0 2.56474647022</pose>
+</include>
+
+
+<include>
+	<uri>model://tree1</uri>
+	<name>tree1_6</name>
+	<pose>5.69644328331 -33.8543156691 10 0 0 5.23163773391</pose>
+</include>
+
+
+<include>
+	<uri>model://tree1</uri>
+	<name>tree1_7</name>
+	<pose>-4.91037616847 -0.316355991446 10 0 0 4.4640348111</pose>
+</include>
+
+
+<include>
+	<uri>model://tree1</uri>
+	<name>tree1_8</name>
+	<pose>-10.5571252468 22.6731629624 10 0 0 2.39426569163</pose>
+</include>
+
+
+<include>
+	<uri>model://tree1</uri>
+	<name>tree1_9</name>
+	<pose>-25.5079989475 -10.9374816162 10 0 0 1.28696215041</pose>
+</include>
+
+
+	
+    <!--
+    <plugin filename="libwr_spawn_plugin.so" name="wr_spawn_plugin">
+    </plugin>
+    -->
+
+    <scene>
+      <sky>
+        <clouds>
+          <speed>1</speed>
+        </clouds>
+      </sky>
+      <grid>0</grid>
+    </scene>
+
+
+	
+    <gravity>0 0 0</gravity>
+    
+    <physics name='default_physics' default='0' type='ode'>
+      <max_step_size>0.01</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>100</real_time_update_rate>
+    </physics>
+
+
+</world>
+</sdf>

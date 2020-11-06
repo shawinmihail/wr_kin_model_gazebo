@@ -2,7 +2,6 @@
 <sdf version='1.6'>
 	<world name="kin">
 
-
 	<include>
 		<uri>model://sun</uri>
 		<pose>0 0 100 0 0 0</pose>
@@ -17,6 +16,589 @@
 		<uri>model://wr</uri>
 	</include>
 
+	
+<include>
+	<uri>model://tree1</uri>
+	<name>tree1_0</name>
+	<pose>73.6417128538 9.75073732491 2.2811511567036726 0 0 6.22234055086</pose>
+</include>
+
+
+<include>
+	<uri>model://tree1</uri>
+	<name>tree1_1</name>
+	<pose>51.2713777582 69.2590016881 0.22853753634295237 0 0 2.68487563148</pose>
+</include>
+
+
+<include>
+	<uri>model://tree1</uri>
+	<name>tree1_2</name>
+	<pose>-36.7518407891 21.8085202126 -2.4699941927269218 0 0 5.49836698415</pose>
+</include>
+
+
+<include>
+	<uri>model://tree1</uri>
+	<name>tree1_3</name>
+	<pose>-30.26695205 -15.7920019913 -2.844908597986038 0 0 4.23190106145</pose>
+</include>
+
+
+<include>
+	<uri>model://tree1</uri>
+	<name>tree1_4</name>
+	<pose>-72.4091319421 31.8011926717 -0.4169697182394483 0 0 1.80256195875</pose>
+</include>
+
+
+<include>
+	<uri>model://tree1</uri>
+	<name>tree1_5</name>
+	<pose>-59.9854399842 -63.6062436342 1.5538082948882694 0 0 4.22006175823</pose>
+</include>
+
+
+<include>
+	<uri>model://tree1</uri>
+	<name>tree1_6</name>
+	<pose>-37.9642322431 -76.4995856604 -2.525757216334497 0 0 5.1791298492</pose>
+</include>
+
+
+<include>
+	<uri>model://tree1</uri>
+	<name>tree1_7</name>
+	<pose>-1.00741700745 40.3297995489 1.9507175460494417 0 0 5.55087962879</pose>
+</include>
+
+
+<include>
+	<uri>model://tree1</uri>
+	<name>tree1_8</name>
+	<pose>54.9441345487 -32.8002478019 3.047610232762782 0 0 1.40215138485</pose>
+</include>
+
+
+<include>
+	<uri>model://tree1</uri>
+	<name>tree1_9</name>
+	<pose>43.0523796274 25.324134378 -4.927815826048001 0 0 0.554980600926</pose>
+</include>
+
+
+<include>
+	<uri>model://tree1</uri>
+	<name>tree1_10</name>
+	<pose>-53.7002485097 -20.4257710451 -0.09876896690121661 0 0 2.72262951522</pose>
+</include>
+
+
+<include>
+	<uri>model://tree1</uri>
+	<name>tree1_11</name>
+	<pose>21.0689152607 -52.8847476703 -1.4638075103768433 0 0 2.40365630269</pose>
+</include>
+
+
+<include>
+	<uri>model://tree1</uri>
+	<name>tree1_12</name>
+	<pose>23.5069758282 -36.2017890343 -1.3749749685014059 0 0 1.794978794</pose>
+</include>
+
+
+<include>
+	<uri>model://tree1</uri>
+	<name>tree1_13</name>
+	<pose>71.8975889571 3.11472142118 0.1844446895895091 0 0 0.301297192337</pose>
+</include>
+
+
+<include>
+	<uri>model://tree1</uri>
+	<name>tree1_14</name>
+	<pose>-78.6313287629 24.786346773 -4.478476878754887 0 0 5.99827207797</pose>
+</include>
+
+
+<include>
+	<uri>model://tree1</uri>
+	<name>tree1_15</name>
+	<pose>18.5419529262 -49.9014942742 -3.347202702877832 0 0 1.98060167161</pose>
+</include>
+
+
+<include>
+	<uri>model://tree1</uri>
+	<name>tree1_16</name>
+	<pose>67.3872035003 -6.10623008986 -4.5518656364209376 0 0 3.2893742484</pose>
+</include>
+
+
+<include>
+	<uri>model://tree1</uri>
+	<name>tree1_17</name>
+	<pose>-39.8176998948 57.047439583 -1.0856047198625565 0 0 1.32356602819</pose>
+</include>
+
+
+<include>
+	<uri>model://tree1</uri>
+	<name>tree1_18</name>
+	<pose>-59.7975290179 -46.5270442858 -3.8922458777500113 0 0 5.55544664961</pose>
+</include>
+
+
+<include>
+	<uri>model://tree1</uri>
+	<name>tree1_19</name>
+	<pose>46.2439978356 58.9920004138 -4.376725117325226 0 0 0.859907951381</pose>
+</include>
+
+
+<include>
+	<uri>model://tree1</uri>
+	<name>tree1_20</name>
+	<pose>-77.7250373712 1.50396944031 -0.46411420729174147 0 0 2.85099810505</pose>
+</include>
+
+
+<include>
+	<uri>model://tree1</uri>
+	<name>tree1_21</name>
+	<pose>70.6252560256 73.2451724495 -0.13288086924595466 0 0 4.63686372328</pose>
+</include>
+
+
+<include>
+	<uri>model://tree1</uri>
+	<name>tree1_22</name>
+	<pose>-12.124534767 -5.51245081368 -2.695987847863616 0 0 4.43875923722</pose>
+</include>
+
+
+<include>
+	<uri>model://tree1</uri>
+	<name>tree1_23</name>
+	<pose>-2.75289701218 -35.8873015717 -1.7512212250705907 0 0 4.5721480579</pose>
+</include>
+
+
+<include>
+	<uri>model://tree1</uri>
+	<name>tree1_24</name>
+	<pose>65.5113511774 73.4967727033 0.388462645261646 0 0 1.81125521728</pose>
+</include>
+
+
+<include>
+	<uri>model://tree2</uri>
+	<name>tree2_0</name>
+	<pose>38.0653667706 81.9722796404 2.2299543240170294 0 0 4.1476968267</pose>
+</include>
+
+
+<include>
+	<uri>model://tree2</uri>
+	<name>tree2_1</name>
+	<pose>-55.9853088887 -1.16569895405 -2.6187279986495087 0 0 5.2988942203</pose>
+</include>
+
+
+<include>
+	<uri>model://tree2</uri>
+	<name>tree2_2</name>
+	<pose>8.63004080177 46.1313209053 4.383134420620417 0 0 5.01734664298</pose>
+</include>
+
+
+<include>
+	<uri>model://tree2</uri>
+	<name>tree2_3</name>
+	<pose>-55.0516508096 55.5128252479 -3.453600383730247 0 0 1.26592358463</pose>
+</include>
+
+
+<include>
+	<uri>model://tree2</uri>
+	<name>tree2_4</name>
+	<pose>59.6952039543 -12.6842924476 -0.9858472068984134 0 0 0.420748661612</pose>
+</include>
+
+
+<include>
+	<uri>model://tree2</uri>
+	<name>tree2_5</name>
+	<pose>51.0519471251 33.6593745844 -0.193677744625823 0 0 6.09494808928</pose>
+</include>
+
+
+<include>
+	<uri>model://tree2</uri>
+	<name>tree2_6</name>
+	<pose>26.8438662659 49.2136615104 2.563291621467066 0 0 5.70082840298</pose>
+</include>
+
+
+<include>
+	<uri>model://tree2</uri>
+	<name>tree2_7</name>
+	<pose>-16.3205259049 -2.68851633046 0.24615371190384883 0 0 2.36236348503</pose>
+</include>
+
+
+<include>
+	<uri>model://tree2</uri>
+	<name>tree2_8</name>
+	<pose>-47.954911492 -10.030561863 -1.9371888538871906 0 0 0.880519418085</pose>
+</include>
+
+
+<include>
+	<uri>model://tree2</uri>
+	<name>tree2_9</name>
+	<pose>-61.3675269564 -12.741049554 -2.8249773918367174 0 0 1.27696488386</pose>
+</include>
+
+
+<include>
+	<uri>model://tree2</uri>
+	<name>tree2_10</name>
+	<pose>62.6896669615 37.170951036 1.0448923216118329 0 0 1.87991289956</pose>
+</include>
+
+
+<include>
+	<uri>model://tree2</uri>
+	<name>tree2_11</name>
+	<pose>-63.31178244 -1.16830752736 -0.22027903924875075 0 0 6.22736069362</pose>
+</include>
+
+
+<include>
+	<uri>model://rock1</uri>
+	<name>rock1_0</name>
+	<pose>-40.5028317161 65.4885820241 -0.8036527190280196 0 0 6.05008393842</pose>
+</include>
+
+
+<include>
+	<uri>model://rock1</uri>
+	<name>rock1_1</name>
+	<pose>-10.3192121373 62.5809992143 -3.957252475425872 0 0 0.61601851465</pose>
+</include>
+
+
+<include>
+	<uri>model://rock1</uri>
+	<name>rock1_2</name>
+	<pose>-7.37973627629 18.6385706937 -2.528589097356887 0 0 5.88763468267</pose>
+</include>
+
+
+<include>
+	<uri>model://rock1</uri>
+	<name>rock1_3</name>
+	<pose>17.5473588336 -59.2103650747 0.8915395066312777 0 0 4.54428337238</pose>
+</include>
+
+
+<include>
+	<uri>model://rock1</uri>
+	<name>rock1_4</name>
+	<pose>-63.5330271645 32.2068772555 -0.9299309975824358 0 0 0.3091363486</pose>
+</include>
+
+
+<include>
+	<uri>model://rock1</uri>
+	<name>rock1_5</name>
+	<pose>10.7088705952 -39.0943625319 -1.1409793982892409 0 0 1.41123950566</pose>
+</include>
+
+
+<include>
+	<uri>model://rock1</uri>
+	<name>rock1_6</name>
+	<pose>43.9891520008 -26.2271091084 1.0035454407347293 0 0 4.19395195179</pose>
+</include>
+
+
+<include>
+	<uri>model://rock1</uri>
+	<name>rock1_7</name>
+	<pose>23.4516442371 33.202735743 -1.7108414339463573 0 0 5.00282332309</pose>
+</include>
+
+
+<include>
+	<uri>model://rock1</uri>
+	<name>rock1_8</name>
+	<pose>-56.145811722 43.9732171775 0.9983271915740977 0 0 3.66225084493</pose>
+</include>
+
+
+<include>
+	<uri>model://rock1</uri>
+	<name>rock1_9</name>
+	<pose>-68.6560443245 -14.1971266039 0.3228501569916691 0 0 1.3433052549</pose>
+</include>
+
+
+<include>
+	<uri>model://rock1</uri>
+	<name>rock1_10</name>
+	<pose>63.5293828497 -50.8413493114 -1.3916722945642972 0 0 2.4301843258</pose>
+</include>
+
+
+<include>
+	<uri>model://rock1</uri>
+	<name>rock1_11</name>
+	<pose>23.1883858326 -9.32505191273 -3.8638310282470143 0 0 4.48846378678</pose>
+</include>
+
+
+<include>
+	<uri>model://rock1</uri>
+	<name>rock1_12</name>
+	<pose>68.626627463 -59.8237348207 0.9029517520799666 0 0 5.33771207961</pose>
+</include>
+
+
+<include>
+	<uri>model://rock1</uri>
+	<name>rock1_13</name>
+	<pose>-67.7165190753 59.5057332886 -0.9211764743478466 0 0 3.42131599749</pose>
+</include>
+
+
+<include>
+	<uri>model://rock1</uri>
+	<name>rock1_14</name>
+	<pose>51.0454703013 61.1414008465 -2.4806569774825777 0 0 2.6968173086</pose>
+</include>
+
+
+<include>
+	<uri>model://rock1</uri>
+	<name>rock1_15</name>
+	<pose>-29.5176119774 46.110816361 0.9216628745564348 0 0 0.973691567005</pose>
+</include>
+
+
+<include>
+	<uri>model://rock1</uri>
+	<name>rock1_16</name>
+	<pose>17.2114715319 27.3231170022 -4.796826945374611 0 0 1.80641716908</pose>
+</include>
+
+
+<include>
+	<uri>model://rock1</uri>
+	<name>rock1_17</name>
+	<pose>-68.4622799726 -41.3330870975 -0.7270445960578522 0 0 5.80807310446</pose>
+</include>
+
+
+<include>
+	<uri>model://rock1</uri>
+	<name>rock1_18</name>
+	<pose>7.25398039985 -4.16905410691 -0.10471741653442046 0 0 0.59553472834</pose>
+</include>
+
+
+<include>
+	<uri>model://rock1</uri>
+	<name>rock1_19</name>
+	<pose>74.8245649609 -22.158334938 2.1369307534439135 0 0 5.49042711499</pose>
+</include>
+
+
+<include>
+	<uri>model://rock1</uri>
+	<name>rock1_20</name>
+	<pose>-53.0321989489 22.783374062 -3.8176399281000277 0 0 5.99850703606</pose>
+</include>
+
+
+<include>
+	<uri>model://rock1</uri>
+	<name>rock1_21</name>
+	<pose>16.9420806086 -33.1511989912 -0.8189504819523834 0 0 1.01520862075</pose>
+</include>
+
+
+<include>
+	<uri>model://rock1</uri>
+	<name>rock1_22</name>
+	<pose>12.9476129856 -50.2685431527 -1.3949506499012743 0 0 2.41646580695</pose>
+</include>
+
+
+<include>
+	<uri>model://rock1</uri>
+	<name>rock1_23</name>
+	<pose>-36.2044501244 -69.3745443548 -0.3030445451286877 0 0 3.74180424104</pose>
+</include>
+
+
+<include>
+	<uri>model://rock1</uri>
+	<name>rock1_24</name>
+	<pose>-36.80930438 54.1296074986 -1.2103289183766246 0 0 0.787318079613</pose>
+</include>
+
+
+<include>
+	<uri>model://rock1</uri>
+	<name>rock1_25</name>
+	<pose>25.9274244064 62.573449766 -2.4543705876997204 0 0 4.5451834644</pose>
+</include>
+
+
+<include>
+	<uri>model://rock1</uri>
+	<name>rock1_26</name>
+	<pose>23.5882732613 -72.4042980847 -1.9491239300761514 0 0 0.485146555818</pose>
+</include>
+
+
+<include>
+	<uri>model://rock1</uri>
+	<name>rock1_27</name>
+	<pose>-63.8677905865 15.252842125 1.8510639118136671 0 0 4.30688259204</pose>
+</include>
+
+
+<include>
+	<uri>model://rock1</uri>
+	<name>rock1_28</name>
+	<pose>-77.0923491723 -11.9163989777 -3.531275885554981 0 0 0.593590960902</pose>
+</include>
+
+
+<include>
+	<uri>model://rock1</uri>
+	<name>rock1_29</name>
+	<pose>19.773116403 25.097252505 -4.870228775638551 0 0 1.92134157964</pose>
+</include>
+
+
+<include>
+	<uri>model://rock1</uri>
+	<name>rock1_30</name>
+	<pose>-11.9377375149 16.2209079369 0.4012199953294212 0 0 6.16623485993</pose>
+</include>
+
+
+<include>
+	<uri>model://rock1</uri>
+	<name>rock1_31</name>
+	<pose>73.2226214723 -15.9651818791 -1.681384055000316 0 0 0.868395200501</pose>
+</include>
+
+
+<include>
+	<uri>model://rock1</uri>
+	<name>rock1_32</name>
+	<pose>55.2126932906 55.8402142983 0.2399180831919394 0 0 2.62192573276</pose>
+</include>
+
+
+<include>
+	<uri>model://rock1</uri>
+	<name>rock1_33</name>
+	<pose>-43.9330026201 38.5353704353 3.7761529968144893 0 0 5.0032479062</pose>
+</include>
+
+
+<include>
+	<uri>model://rock1</uri>
+	<name>rock1_34</name>
+	<pose>37.1338175396 -28.0286749004 3.032851115500346 0 0 6.24556144103</pose>
+</include>
+
+
+<include>
+	<uri>model://rock1</uri>
+	<name>rock1_35</name>
+	<pose>-67.3229751407 -55.0116952361 3.1789288590750786 0 0 0.579629502443</pose>
+</include>
+
+
+<include>
+	<uri>model://rock1</uri>
+	<name>rock1_36</name>
+	<pose>65.0972123687 58.8096562775 -3.9302759055868695 0 0 3.55183938205</pose>
+</include>
+
+
+<include>
+	<uri>model://rock1</uri>
+	<name>rock1_37</name>
+	<pose>23.8717046428 38.9678914993 1.4003801979327593 0 0 6.27944005262</pose>
+</include>
+
+
+<include>
+	<uri>model://rock1</uri>
+	<name>rock1_38</name>
+	<pose>-10.8959328192 32.6883613847 -1.9947788753441613 0 0 4.07372002409</pose>
+</include>
+
+
+<include>
+	<uri>model://rock1</uri>
+	<name>rock1_39</name>
+	<pose>72.984701633 -18.1234635331 -0.6363997359988078 0 0 5.17457012496</pose>
+</include>
+
+
+<include>
+	<uri>model://rock2</uri>
+	<name>rock2_0</name>
+	<pose>-7.09812543145 -13.6812901599 -3.854183757975555 0 0 5.27529804481</pose>
+</include>
+
+
+<include>
+	<uri>model://rock2</uri>
+	<name>rock2_1</name>
+	<pose>-47.7853335926 31.5684232514 -0.676603311201132 0 0 0.878146177459</pose>
+</include>
+
+
+<include>
+	<uri>model://rock2</uri>
+	<name>rock2_2</name>
+	<pose>70.4020226213 45.3665255856 1.0442746005043033 0 0 0.606318366552</pose>
+</include>
+
+
+<include>
+	<uri>model://rock2</uri>
+	<name>rock2_3</name>
+	<pose>-42.1060591653 10.071899699 4.7474180715316985 0 0 5.48873257042</pose>
+</include>
+
+
+<include>
+	<uri>model://rock2</uri>
+	<name>rock2_4</name>
+	<pose>79.4296405637 7.96899736606 4.764337505576611 0 0 4.89923569494</pose>
+</include>
+
+
+<include>
+	<uri>model://rock2</uri>
+	<name>rock2_5</name>
+	<pose>-27.7657894753 -18.6046088044 -0.6899212179627167 0 0 5.94248657672</pose>
+</include>
+
+
+	
     <plugin filename="libwr_spawn_plugin.so" name="wr_spawn_plugin">
     </plugin>
 
@@ -28,6 +610,7 @@
       </sky>
       <grid>0</grid>
     </scene>
+
 
 	
     <gravity>0 0 0</gravity>

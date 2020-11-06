@@ -1,0 +1,7 @@
+
+<include>
+	<uri>model://%(obstacle_model)s</uri>
+	<name>%(obstacle_name)s</name>
+	<pose>%(obstacle_pos)s %(obstacle_att)s</pose>
+</include>
+

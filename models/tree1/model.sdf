@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+
+    <model name="tree1">
+      <static>true</static>
+      <link name="tree">
+	<visual name="body_visual">
+	    <pose>0 0 0 0 0 0</pose>
+	    <geometry>
+	      <mesh>
+		<scale>0.2 0.2 0.2</scale>
+		<uri>model://tree1/meshes/tree01.stl</uri>
+	      </mesh>
+	    </geometry>
+	    <material>
+	      <script>
+		<name>Gazebo/Green</name>
+		<uri>file://media/materials/scripts/gazebo.material</uri>
+	      </script>
+	    </material>
+	  </visual>
+      </link>
+    </model>
+
+</sdf>

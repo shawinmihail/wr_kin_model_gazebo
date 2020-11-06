@@ -45,12 +45,7 @@ public:
                 eVector3 splinePoint = getSplinePoint(cfs, a);
                 spawnSplPoint(splinePoint);
             }
-
-
-
         }
-        
-
     }
 
     void spawnWp(const eVector3& pos){

@@ -1,0 +1,45 @@
+<?xml version='1.0'?>
+<sdf version='1.6'>
+	<world name="kin">
+
+	<include>
+		<uri>model://sun</uri>
+		<pose>0 0 100 0 0 0</pose>
+	</include>
+	
+
+	<include>
+		<uri>model://main_surf</uri>
+	</include>
+
+	<include>
+		<uri>model://wr</uri>
+	</include>
+
+	%(obstacles)s
+	
+    <plugin filename="libwr_spawn_plugin.so" name="wr_spawn_plugin">
+    </plugin>
+
+    <scene>
+      <sky>
+        <clouds>
+          <speed>1</speed>
+        </clouds>
+      </sky>
+      <grid>0</grid>
+    </scene>
+
+
+	
+    <gravity>0 0 0</gravity>
+    
+    <physics name='default_physics' default='0' type='ode'>
+      <max_step_size>0.01</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>100</real_time_update_rate>
+    </physics>
+
+
+</world>
+</sdf>

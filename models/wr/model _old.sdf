@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+
+    <model name="wr">
+      <static>true</static>
+      <link name="body">
+	<visual name="body_visual">
+	    <pose>0 0 0 0 0 0</pose>
+	    <geometry>
+	      <mesh>
+		<scale>1 1 1</scale>
+		<uri>model://wr/meshes/wr.stl</uri>
+	      </mesh>
+	    </geometry>
+	    <material>
+	      <script>
+		<name>Gazebo/Gold</name>
+		<uri>file://media/materials/scripts/gazebo.material</uri>
+	      </script>
+	    </material>
+	  </visual>
+      </link>
+    <plugin name="wr_kin_plugin.so" filename="libwr_kin_plugin.so"></plugin>
+    </model>
+
+</sdf>
