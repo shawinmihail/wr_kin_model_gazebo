@@ -9,7 +9,7 @@
 	
 
 	<include>
-		<uri>model://main_surf</uri>
+		<uri>model://surf</uri>
 	</include>
 
 	<include>

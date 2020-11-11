@@ -1,6 +1,9 @@
 #include <GL/gl.h>
 #include "curve_math.h"
 #include <cmath>
+#include "surf_fcn.h"
+#include "surf_fcn_terminate.h"
+#include <iostream>
 
 eVector4 quatMultiply(const eVector4& q, const eVector4& r)
 {
@@ -31,16 +34,22 @@ eVector3 quatRotate(const eVector4& q, const eVector3& v)
 
 double surf(double x, double y)
 {
-    double z = 2.0 * sin (x * 2.0 * 3.1415 / 25.0) +  3.0 *sin(y * 2.0* 3.1415 / 35.0);
-    return z;
+    //double z = 2.0 * sin (x * 2.0 * 3.1415 / 25.0) +  3.0 *sin(y * 2.0* 3.1415 / 35.0);
+    double out[4];
+    surf_fcn(x, y, out);
+    return out[0];
 };
 
 eVector3 surf_n(double x, double y)
 {
-    double xn = (2.0 * 3.1415 / 25.0) * 2.0 * cos (x * 2.0 * 3.1415 / 25.0);
-    double yn = (2.0* 3.1415 / 35.0) * 3.0 * cos(y * 2.0* 3.1415 / 35.0);
-    double zn = 1;
-    eVector3 n(xn, yn, zn);
+    //double xn = (2.0 * 3.1415 / 25.0) * 2.0 * cos (x * 2.0 * 3.1415 / 25.0);
+    //double yn = (2.0* 3.1415 / 35.0) * 3.0 * cos(y * 2.0* 3.1415 / 35.0);
+    //double zn = 1;
+    
+    double out[4];
+    surf_fcn(x, y, out);
+    eVector3 n(-out[1], -out[2], out[3]);
+    //std::cout << n << std::endl;
     return n.normalized();
 };
 
@@ -209,6 +218,7 @@ double calc_ctrl(const eVector3& pos, const eVector4& q, const std::vector<eMatr
 
 SurfMotModel::SurfMotModel(double x, double y, double yaw) :
 yaw0(yaw)
+,Kv(2.0)
 {
     state << x, y, surf(x, y), 0, 0, 0, 1, 0, 0, 0;
 }
@@ -218,10 +228,9 @@ void SurfMotModel::calcNext(double u, double v, double dt)
     eVector3 r0 = state.segment(0,3);
     eVector3 v0 = state.segment(3,3);
     eVector4 q0 = state.segment(6,4);
-    
+        
     // r
     eVector3 r1 = r0 + v0 * dt;
-    
     
     // q
     eVector3 n1 = surf_n(r1[0], r1[1]);
@@ -231,12 +240,21 @@ void SurfMotModel::calcNext(double u, double v, double dt)
     eVector4 q1 = quatFromDirAndYaw(n1, yaw1);
     
     // v
-    eVector3 v1 = quatRotate(q1, eVector3(v, 0, 0));
+    double v_curr = v0.norm();
+    double a = Kv * (v - v_curr);
+    eVector3 v1 = quatRotate(q1, eVector3(v_curr + a * dt, 0, 0));
     
+    // a w
+    acc = (v1 - v0) / dt;
+
+    eVector4 qdot = (q1 - q0)/ dt;
+    eVector4 qw = 2 * quatMultiply(quatInverse(q0), qdot);
+    rotVel = qw.segment(0,3);
+    
+    // state
     state << r1, v1, q1; 
     
     yaw0 = yaw1;
-    
 }
 
 eVector10 SurfMotModel::getState()
@@ -250,9 +268,22 @@ Position SurfMotModel::getPosition()
     return p;
 }
 
+Vector SurfMotModel::getLinearVel()
+{
+    return Vector(state[3], state[4], state[5]);
+}
+
+Vector SurfMotModel::getAcc()
+{
+    return Vector(acc[0], acc[1], acc[2]);
+}
+    
+Vector SurfMotModel::getRotVel()
+{
+    return Vector(rotVel[0], rotVel[1], rotVel[2]);
+}
+
 /* END class SurfMotModel */
-
-
 
 /*BEGIN splain operations*/
 
@@ -323,4 +354,142 @@ double calcSstarNumeric(const eVector3& y, const eMatrix43& cfs)
 
 /*END splain operations*/
     
+/*BEGIN class IMU mes model*/
 
+ImuMeasurmentsModel::ImuMeasurmentsModel()
+{
+    
+}
+
+ImuMeasurmentsModel::ImuMeasurmentsModel(double accRms_, double angvelRms_, const eVector3& g_) :
+ g(g_)
+,normal_distribution_acc(0, accRms_)
+,normal_distribution_rotvel(0, angvelRms_)
+{
+    
+}
+
+void ImuMeasurmentsModel::setParams(double accRms_, double angvelRms_, const eVector3& g_)
+{
+    g = g_;
+    normal_distribution_acc = std::normal_distribution<double>(0, accRms_);
+    normal_distribution_rotvel = std::normal_distribution<double>(0, angvelRms_);
+}
+
+eVector3 ImuMeasurmentsModel::getImuAcc(const eVector3& acc, const eVector4& q)
+{
+    eVector3 accImu = quatRotate(quatInverse(q), acc - g) + eVector3(normal_distribution_acc(random_generator), normal_distribution_acc(random_generator), normal_distribution_acc(random_generator));
+    return accImu;
+}
+
+eVector3 ImuMeasurmentsModel::getImuAngVel(const eVector3& angVel)
+{
+    eVector3 angVelImu = angVel + eVector3(normal_distribution_rotvel(random_generator), normal_distribution_rotvel(random_generator), normal_distribution_rotvel(random_generator));
+    return angVelImu;
+}
+
+/*END class IMU mes model*/
+
+
+/*BEGIN class GNNS mes model*/
+GnnsTripletMeasurmentsModel::GnnsTripletMeasurmentsModel():
+geo(mswhgeo_constants::WGS84)
+{
+}
+
+GnnsTripletMeasurmentsModel::GnnsTripletMeasurmentsModel(
+    const eVector3& refLatLonAlt_, double posBaseRms_, double velBaseRms_, double posSlavesRms_, const eVector3& dr_base_, const eVector3& dr_slave1_, const eVector3& dr_slave2_):
+dr_base(dr_base_)
+,dr_slave1(dr_slave1)
+,dr_slave2(dr_slave2)
+,refLatLonAlt(refLatLonAlt_)
+,geo(mswhgeo_constants::WGS84)
+,nd_base_pos(0, posBaseRms_)
+,nd_base_vel(0, velBaseRms_)
+,nd_slaves_pos(0, posSlavesRms_)
+{
+    double x = 0, y = 0, z = 0;
+    geo.Wgs2Ecef(refLatLonAlt[0], refLatLonAlt[1], refLatLonAlt[2], x, y, z);
+    refEcefXYZ = eVector3(x, y, z);
+}
+
+void GnnsTripletMeasurmentsModel::setParams(
+    const eVector3& refLatLonAlt_, double posBaseRms_, double velBaseRms_, double posSlavesRms_, const eVector3& dr_base_, const eVector3& dr_slave1_, const eVector3& dr_slave2_)
+{
+    dr_base = dr_base_;
+    dr_slave1 = dr_slave1_;
+    dr_slave2 = dr_slave2_;
+    refLatLonAlt = refLatLonAlt_;
+    
+    nd_base_pos= std::normal_distribution<double>(0, posBaseRms_);
+    nd_base_vel= std::normal_distribution<double>(0, velBaseRms_);
+    nd_slaves_pos= std::normal_distribution<double>(0, posSlavesRms_);
+    
+    double x = 0, y = 0, z = 0;
+    geo.Wgs2Ecef(refLatLonAlt[0], refLatLonAlt[1], refLatLonAlt[2], x, y, z);
+    refEcefXYZ = eVector3(x, y, z);
+}
+
+eVector3 GnnsTripletMeasurmentsModel::getBasePosEnu(const eVector3& pos, const eVector4& q)
+{
+    eVector3 dr = quatRotate(q ,dr_base);
+    eVector3 basePos = pos + dr + eVector3(nd_base_pos(rg), nd_base_pos(rg), nd_base_pos(rg));
+    return basePos;
+}
+
+eVector3 GnnsTripletMeasurmentsModel::getBaseVelEnu(const eVector3& vel, const eVector4& q, const eVector3& angVel)
+{
+    eVector3 dv = quatRotate(q, angVel.cross(dr_base));
+    eVector3 baseVel = vel + dv + eVector3(nd_base_vel(rg), nd_base_vel(rg), nd_base_vel(rg));
+    return baseVel;
+}
+
+eVector3 GnnsTripletMeasurmentsModel::getSlave1DrEnu(const eVector4& q)
+{
+    eVector3 slavePos = quatRotate(q, dr_slave1) + eVector3(nd_slaves_pos(rg), nd_slaves_pos(rg), nd_slaves_pos(rg));
+    return slavePos;
+}
+
+eVector3 GnnsTripletMeasurmentsModel::getSlave2DrEnu(const eVector4& q)
+{
+    eVector3 slavePos = quatRotate(q, dr_slave2) + eVector3(nd_slaves_pos(rg), nd_slaves_pos(rg), nd_slaves_pos(rg));
+    return slavePos;
+}
+
+eVector3 GnnsTripletMeasurmentsModel::getBasePosEcef(const eVector3& pos, const eVector4& q)
+{
+    eVector3 basePosEnu = getBasePosEnu(pos, q);
+    double x = 0, y = 0, z = 0;
+    geo.Enu2Ecef(refLatLonAlt[0], refLatLonAlt[1], refLatLonAlt[2], basePosEnu[0], basePosEnu[1], basePosEnu[2], x, y, z);
+    eVector3 basePos(x, y, z);
+    return basePos + refEcefXYZ;
+}
+
+eVector3 GnnsTripletMeasurmentsModel::getBaseVelEcef(const eVector3& vel, const eVector4& q, const eVector3& angVel)
+{
+    eVector3 vEnu = getBaseVelEnu(vel, q, angVel);
+    double x = 0, y = 0, z = 0;
+    geo.Enu2Ecef(refLatLonAlt[0], refLatLonAlt[1], refLatLonAlt[2], vEnu[0], vEnu[1], vEnu[2], x, y, z);
+    eVector3 velEcef(x, y, z);
+    return velEcef;
+}
+
+eVector3 GnnsTripletMeasurmentsModel::getSlave1DrEcef(const eVector4& q)
+{
+    eVector3 slave1DrEnu = getSlave1DrEnu(q);
+    double x = 0, y = 0, z = 0;
+    geo.Enu2Ecef(refLatLonAlt[0], refLatLonAlt[1], refLatLonAlt[2], slave1DrEnu[0], slave1DrEnu[1], slave1DrEnu[2], x, y, z);
+    eVector3 pos(x, y, z);
+    return pos;
+}
+
+eVector3 GnnsTripletMeasurmentsModel::getSlave2DrEcef(const eVector4& q)
+{
+    eVector3 slave2DrEnu = getSlave2DrEnu(q);
+    double x = 0, y = 0, z = 0;
+    geo.Enu2Ecef(refLatLonAlt[0], refLatLonAlt[1], refLatLonAlt[2], slave2DrEnu[0], slave2DrEnu[1], slave2DrEnu[2], x, y, z);
+    eVector3 pos(x, y, z);
+    return pos;
+}
+
+/*END class GNNS mes model*/

@@ -95,7 +95,8 @@ for i in range(N):
 	
 	
 # write word
-world_str = world_template % {"obstacles": obstacles_str}
+#world_str = world_template % {"obstacles": obstacles_str}
+world_str = world_template % {"obstacles": ""}
 # f = open("kin_obstacles_generated.world", "w")
 f = open("../kin.world", "w")
 f.write(world_str)

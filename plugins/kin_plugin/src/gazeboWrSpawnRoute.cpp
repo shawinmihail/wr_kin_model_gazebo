@@ -43,7 +43,7 @@ public:
             for(double a = 0; a < 1; a += 0.25)
             {
                 eVector3 splinePoint = getSplinePoint(cfs, a);
-                spawnSplPoint(splinePoint);
+                //spawnSplPoint(splinePoint);
             }
         }
     }
@@ -52,30 +52,11 @@ public:
         sdf::SDF SDF;
         
         SDF.SetFromString(
-        "<?xml version=1.0?>\
-        <sdf version=1.5>\
-        <model name='route_beacon_"+
-        std::to_string(beaconCounter) +
-        "'>\
-        <pose>" +
-        string_eVector3(pos) +
-        " 0 0 0</pose>\
-        <static>true</static>\
-        <link name='link'>\
-        <visual name='visual'>\
-        <geometry>\
-        <sphere><radius>0.25</radius></sphere>\
-        </geometry>\
-        <material>\
-        <script>\
-		<name>Gazebo/Red</name>\
-		<uri>file://media/materials/scripts/gazebo.material</uri>\
-        </script>\
-	    </material>\
-        </visual>\
-        </link>\
-        </model>\
-        </sdf>"
+        "<?xml version=\"1.0\"?>\n<sdf version=\"1.6\">\n<model name=\"route_beacon_" + std::to_string(beaconCounter) + "\">\n" + 
+        "<pose>" + string_eVector3(pos) + " 0 0 0</pose>\n<static>true</static>\n<link name=\"link\">\n<visual name=\"visual\">\n" +
+        "<geometry>\n<sphere><radius>0.25</radius></sphere>\n</geometry>\n" + 
+        "<material>\n<script>\n<name>Gazebo/Red</name>\n<uri>file://media/materials/scripts/gazebo.material</uri>\n</script>\n</material>\n" + 
+        "</visual>\n</link>\n</model>\n</sdf>"
         );
         
         sdf::ElementPtr model = SDF.Root()->GetElement("model");
@@ -89,7 +70,7 @@ public:
         
         SDF.SetFromString(
         "<?xml version=1.0?>\
-        <sdf version=1.5>\
+        <sdf version=1.6>\
         <model name='route_beacon_"+
         std::to_string(beaconCounter) +
         "'>\

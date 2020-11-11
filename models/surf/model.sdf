@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+
+    <model name="surf">
+      <static>true</static>
+      <link name="map">
+	<visual name="body_visual">
+	    <pose>0 0 0 0 0 0</pose>
+	    <geometry>
+	      <mesh>
+		<scale>1 1 1</scale>
+		<uri>model://surf/generated/surf.stl</uri>
+	      </mesh>
+	    </geometry>
+	    <material>
+	      <script>
+		<name>Gazebo/GreenTransparent</name>
+		<uri>file://media/materials/scripts/gazebo.material</uri>
+	      </script>
+	    </material>
+	  </visual>
+      </link>
+    </model>
+
+</sdf>

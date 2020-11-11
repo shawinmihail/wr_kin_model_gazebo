@@ -1,7 +1,9 @@
 #pragma once
 #include <gazebo/common/common.hh>
 #include <vector>
+#include <random>
 #include <Eigen/Dense>
+#include "mshw_geolib.h"
 
 typedef ignition::math::Quaternion<double> Quaternion;
 typedef ignition::math::Vector3d Vector;
@@ -56,9 +58,71 @@ public:
     
     Position getPosition();
     
+    Vector getLinearVel();
+    
+    Vector getAcc();
+    
+    Vector getRotVel();
+    
 private:
     double yaw0;
     eVector10 state;
+    eVector3 acc;
+    eVector3 rotVel;
+    
+    double Kv;
+};
+
+class ImuMeasurmentsModel
+{
+public:
+    
+    ImuMeasurmentsModel();
+    ImuMeasurmentsModel(double accRms_, double angvelRms_, const eVector3& g_);
+    void setParams(double accRms_, double angvelRms_, const eVector3& g_);
+    
+    eVector3 getImuAcc(const eVector3& acc, const eVector4& q);
+    eVector3 getImuAngVel(const eVector3& angVel);
+    
+private:
+    std::default_random_engine random_generator;
+    std::normal_distribution<double> normal_distribution_acc;
+    std::normal_distribution<double> normal_distribution_rotvel;
+    eVector3 g;
+};
+
+
+class GnnsTripletMeasurmentsModel
+{
+public:
+    
+    GnnsTripletMeasurmentsModel();
+    GnnsTripletMeasurmentsModel(const eVector3& refLatLonAlt_, double posBaseRms_, double velBaseRms_, double posSlavesRms_, const eVector3& dr_base_, const eVector3& dr_slave1_, const eVector3& dr_slave2_);
+    void setParams(const eVector3& refLatLonAlt_, double posBaseRms_, double velBaseRms_, double posSlavesRms_, const eVector3& dr_base_, const eVector3& dr_slave1_, const eVector3& dr_slave2_);
+    
+    eVector3 getBasePosEnu(const eVector3& pos, const eVector4& q);
+    eVector3 getBaseVelEnu(const eVector3& vel, const eVector4& q, const eVector3& angVel);
+    eVector3 getSlave1DrEnu(const eVector4& q);
+    eVector3 getSlave2DrEnu(const eVector4& q);
+    
+    eVector3 getBasePosEcef(const eVector3& pos, const eVector4& q);
+    eVector3 getBaseVelEcef(const eVector3& vel, const eVector4& q, const eVector3& angVel);
+    eVector3 getSlave1DrEcef(const eVector4& q);
+    eVector3 getSlave2DrEcef(const eVector4& q);
+    
+private:
+    mswhgeo::Geo geo;
+    eVector3 refLatLonAlt;
+    eVector3 refEcefXYZ;
+    
+    std::default_random_engine rg;
+    std::normal_distribution<double> nd_base_pos;
+    std::normal_distribution<double> nd_base_vel;
+    std::normal_distribution<double> nd_slaves_pos;
+
+    eVector3 dr_base;
+    eVector3 dr_slave1;
+    eVector3 dr_slave2;
 };
 
 

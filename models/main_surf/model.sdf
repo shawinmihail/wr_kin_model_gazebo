@@ -3,7 +3,7 @@
 
     <model name="main_surf">
       <static>true</static>
-      <link name="surf">
+      <link name="map">
 	<visual name="body_visual">
 	    <pose>0 0 0 0 0 0</pose>
 	    <geometry>
