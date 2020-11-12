@@ -1,17 +1,12 @@
+import sys
+#sys.path.append('../models/surf/python_wrapper/build')
 import numpy as np
+import surf_fcn_python_wrapper
+
 pi = 3.1415
 
 def surf(x, y):
-    z = 2.0 * np.sin (x * 2.0 * 3.1415 / 25.0) +  3.0 * np.sin(y * 2.0* 3.1415 / 35.0)
-    return z
-
-def surf_n(x, y):
-    xn = (2.0 * 3.1415 / 25.0) * 2.0 * np.cos (x * 2.0 * 3.1415 / 25.0)
-    yn = (2.0* 3.1415 / 35.0) * 3.0 * np.cos(y * 2.0* 3.1415 / 35.0)
-    zn = 1;
-    n = np.array([xn, yn, zn])
-    n = n / np.linalg.norm(n)
-    return n
+    return surf_fcn_python_wrapper.surf_alt(x, y)
 
 # seed
 np.random.seed(205)
@@ -30,9 +25,9 @@ f.close()
 obstacles_str = ""
 
 # generate obstacles tree1
-N = 25
+N = 35
 mus = [0., 0., 0.]
-sigma = 160.
+sigma = 200.
 for i in range(N):
     model_name = "tree1"
     name = model_name + "_%s" % i
@@ -46,9 +41,9 @@ for i in range(N):
     obstacles_str += obstacle_str
     
 # generate obstacles tree2
-N = 12
+N = 20
 mus = [5., -10., 0.]
-sigma = 160.
+sigma = 200.
 for i in range(N):
     model_name = "tree2"
     name = model_name + "_%s" % i
@@ -62,9 +57,9 @@ for i in range(N):
     obstacles_str += obstacle_str
     
 # generate obstacles rock1
-N = 40
+N = 60
 mus = [0., 0., 0.]
-sigma = 160.
+sigma = 200.
 for i in range(N):
     model_name = "rock1"
     name = model_name + "_%s" % i
@@ -78,9 +73,9 @@ for i in range(N):
     obstacles_str += obstacle_str
     
 # generate obstacles rock2
-N = 6
+N = 12
 mus = [0., 0., 0.]
-sigma = 160.
+sigma = 200.
 for i in range(N):
     model_name = "rock2"
     name = model_name + "_%s" % i
@@ -95,8 +90,8 @@ for i in range(N):
 	
 	
 # write word
-#world_str = world_template % {"obstacles": obstacles_str}
-world_str = world_template % {"obstacles": ""}
+world_str = world_template % {"obstacles": obstacles_str}
+#world_str = world_template % {"obstacles": ""}
 # f = open("kin_obstacles_generated.world", "w")
 f = open("../kin.world", "w")
 f.write(world_str)

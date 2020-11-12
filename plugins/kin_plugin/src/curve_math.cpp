@@ -48,7 +48,7 @@ eVector3 surf_n(double x, double y)
     
     double out[4];
     surf_fcn(x, y, out);
-    eVector3 n(-out[1], -out[2], out[3]);
+    eVector3 n(out[1], out[2], out[3]);
     //std::cout << n << std::endl;
     return n.normalized();
 };

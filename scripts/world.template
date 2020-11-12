@@ -18,8 +18,8 @@
 
 	%(obstacles)s
 	
-    <plugin filename="libwr_spawn_plugin.so" name="wr_spawn_plugin">
-    </plugin>
+    <!--plugin filename="libwr_spawn_plugin.so" name="wr_spawn_plugin">
+    </plugin-->
 
     <scene>
       <sky>
@@ -30,8 +30,6 @@
       <grid>0</grid>
     </scene>
 
-
-	
     <gravity>0 0 0</gravity>
     
     <physics name='default_physics' default='0' type='ode'>

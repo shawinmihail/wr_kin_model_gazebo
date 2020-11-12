@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package>
-  <name>kin_plugin</name>
+  <name>kin_model</name>
   <version>0.1.1</version>
   <description>ros_kin_model</description>
   <author email="shawinmihail@gmail.com">shawinmihail</author>

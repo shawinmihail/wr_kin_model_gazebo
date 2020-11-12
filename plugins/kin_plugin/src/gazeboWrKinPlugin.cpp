@@ -249,6 +249,8 @@ class gazeboWrKinPlugin : public ModelPlugin
         pubState();
         pubGnns();
         pubImu();
+        
+        ros::spinOnce();
     }
 
     private:
