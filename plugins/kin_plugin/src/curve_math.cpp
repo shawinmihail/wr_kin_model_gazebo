@@ -242,7 +242,7 @@ void SurfMotModel::calcNext(double u, double v, double dt)
     // v
     double v_curr = v0.norm();
     double a = Kv * (v - v_curr);
-    eVector3 v1 = quatRotate(q1, eVector3(v_curr + a * dt, 0, 0));
+    eVector3 v1 = quatRotate(q0, eVector3(v_curr + a * dt, 0, 0));
     
     // a w
     acc = (v1 - v0) / dt;

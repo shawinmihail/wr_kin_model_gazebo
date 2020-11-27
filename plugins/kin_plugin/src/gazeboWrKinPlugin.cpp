@@ -45,9 +45,9 @@ class gazeboWrKinPlugin : public ModelPlugin
         
         /* TODO define params in sdf and launch file*/
         eVector3 refLatLonAlt(55.751244 * 3.1415 / 180.0, 37.618423 * 3.1415 / 180.0, 200);
-        eVector3 dr_base(-0.2, 0.0, 0.5);
-        eVector3 dr_slave1(0.9, -0.3, 0.0);
-        eVector3 dr_slave2(0.9, 0.3, 0.0);
+        eVector3 dr_base(-0.4, 0.0, 0.4);
+        eVector3 dr_slave1(0.73, 0.23, 0.0);
+        eVector3 dr_slave2(0.73, -0.23, 0.0);
         double posBaseRms = 0.005;
         double velBaseRms = 0.003;
         double posSlavesRms = 0.005;

@@ -8,49 +8,67 @@
 #include <cmath>
 
 #include "ros/ros.h"
+#include "wr_msgs/route_line.h"
+#include "geometry_msgs/Vector3.h"
 
 #include "curve_math.h"
 
 
-int main(int argc, char **argv)
+bool routeCbCalled = false;
+wr_msgs::route_line routeMsg;
+
+
+ignition::transport::Node node;
+ignition::msgs::Marker markerMsg;
+ignition::msgs::Material *matMsg = markerMsg.mutable_material();
+
+void routeSubCb(wr_msgs::route_line msg)
 {
-    ros::init(argc, argv, "gazebo_spawn_node");
-    
-    // init
-    ignition::transport::Node node;
-    ignition::msgs::Marker markerMsg;
-    
-    int n = 0;
-    for (double t = 0; t < 30; t = t + 0.5)
-    {
+    ROS_INFO("New route with %d points received", msg.points.size());
+    routeMsg = msg;
+    routeCbCalled = true;
+}
+
+void drawRoute()
+{
+    int N = routeMsg.points.size();
+    for (int i = 0; i < N; ++i )
+    {        
+        geometry_msgs::Vector3 p = routeMsg.points.at(i);
         
-        n = n + 1;
-        
-        double x = 30.0 * cos (t * 2.0 * 3.1415 / 100) - 30.0;
-        double y = 30.0 * sin (t * 2.0 * 3.1415 / 100);
-        double z = 6;
-        
-        double t1 = t + 0.5;
-        double x1 = 30.0 * cos (t1 * 2.0 * 3.1415 / 100) - 30.0;
-        double y1 = 30.0 * sin (t1 * 2.0 * 3.1415 / 100);
-        double z1 = 6;
-        
-        markerMsg.set_id(n);
+        markerMsg.set_id(i);
         ignition::msgs::Set(markerMsg.mutable_pose(), ignition::math::Pose3d(0, 0, 0, 0, 0, 0));
         markerMsg.set_action(ignition::msgs::Marker::ADD_MODIFY);
-        markerMsg.set_type(ignition::msgs::Marker::LINE_LIST);
-        ignition::msgs::Set(markerMsg.add_point(), ignition::math::Vector3d(x, y, z));
-        ignition::msgs::Set(markerMsg.add_point(), ignition::math::Vector3d(x1, y1, z1));
+        markerMsg.set_type(ignition::msgs::Marker::LINE_STRIP);
+        ignition::msgs::Set(markerMsg.add_point(), ignition::math::Vector3d(p.x, p.y, p.z));
+    }
+    
         node.Request("/marker", markerMsg);
+        matMsg->mutable_script()->set_name("Gazebo/Red");
+        node.Request("/marker", markerMsg);
+}
+
+int main(int argc, char **argv)
+{
+    // ros init
+    ros::init(argc, argv, "kin_model_spawn_node");
+    ros::NodeHandle nodeHandle;
+    ros::Subscriber routeSub;
+    routeSub = nodeHandle.subscribe("kin_model/route_input", 1, &routeSubCb);
+    ros::Rate rate(50);
+    
+    while(ros::ok())
+    {
+        if (routeCbCalled)
+        {
+            drawRoute();
+            routeCbCalled = false;
+        }
+        ros::spinOnce();
+        rate.sleep();
     }
     
     return 0;
-}
-
-
-void spawnTest()
-{
-
 }
 
 
