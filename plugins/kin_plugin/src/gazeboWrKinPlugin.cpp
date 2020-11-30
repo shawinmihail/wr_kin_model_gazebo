@@ -8,7 +8,7 @@
 
 #include "ros/ros.h"
 #include "nav_msgs/Odometry.h"
-#include "wr_msgs/control_req_stamped.h"
+#include "wr_msgs/ctrl_stamped.h"
 #include "wr_msgs/imu_stamped.h"
 #include "wr_msgs/ninelives_triplet_stamped.h"
 
@@ -145,10 +145,10 @@ class gazeboWrKinPlugin : public ModelPlugin
         statePub.publish(msg);
     }
     
-    void ctrlCb(const wr_msgs::control_req_stamped& msg)
+    void ctrlCb(const wr_msgs::ctrl_stamped& msg)
     {
-        input_u = msg.u;
-        input_v = msg.v;
+        input_u = msg.ang;
+        input_v = msg.vel;
     }
     
     void goWithTraj(double t)
