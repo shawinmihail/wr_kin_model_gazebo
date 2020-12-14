@@ -7,10 +7,10 @@
 #include "gazebo/transport/transport.hh"
 
 #include "ros/ros.h"
-#include "nav_msgs/Odometry.h"
 #include "wr_msgs/ctrl_stamped.h"
 #include "wr_msgs/imu_stamped.h"
 #include "wr_msgs/ninelives_triplet_stamped.h"
+#include "wr_msgs/est_state_stamped.h"
 
 #include <iostream>
 #include <stdio.h>
@@ -63,11 +63,10 @@ class gazeboWrKinPlugin : public ModelPlugin
     void initSubsPubs()
     {
         /* TODO name topics like in robot*/
-        statePub = nodeHandle.advertise<nav_msgs::Odometry>("kin_model/state", 1);
-        imuMesPub = nodeHandle.advertise<wr_msgs::imu_stamped>("kin_model/imu", 1);
-        gnnsMesPub = nodeHandle.advertise<wr_msgs::ninelives_triplet_stamped>("kin_model/gnns_triplet", 1);
-        
-        ctrlSub = nodeHandle.subscribe("kin_model/ctrl_input", 1, &gazeboWrKinPlugin::ctrlCb, this);
+        statePub = nodeHandle.advertise<wr_msgs::est_state_stamped>("wr_sensors/model_state", 1);
+        imuMesPub = nodeHandle.advertise<wr_msgs::imu_stamped>("wr_sensors/imu", 1);
+        gnnsMesPub = nodeHandle.advertise<wr_msgs::ninelives_triplet_stamped>("wr_sensors/nl_triplet", 1);
+        ctrlSub = nodeHandle.subscribe("wr_control/control", 1, &gazeboWrKinPlugin::ctrlCb, this);
     }
     
     void pubImu()
@@ -125,23 +124,22 @@ class gazeboWrKinPlugin : public ModelPlugin
     
     void pubState()
     {
-        nav_msgs::Odometry msg;
-        msg.pose.pose.position.x = currPose.X();
-        msg.pose.pose.position.y = currPose.Y();
-        msg.pose.pose.position.z = currPose.Z();
+        wr_msgs::est_state_stamped msg;
+        
+        msg.stamp = ros::Time::now();
+        msg.pos.x = currPose.X();
+        msg.pos.y = currPose.Y();
+        msg.pos.z = currPose.Z();
 
-        msg.pose.pose.orientation.w = currAtt.W();
-        msg.pose.pose.orientation.x = currAtt.X();
-        msg.pose.pose.orientation.y = currAtt.Y();
-        msg.pose.pose.orientation.z = currAtt.Z();
+        msg.att.w = currAtt.W();
+        msg.att.x = currAtt.X();
+        msg.att.y = currAtt.Y();
+        msg.att.z = currAtt.Z();
 
-        msg.twist.twist.linear.x = currVel.X();
-        msg.twist.twist.linear.y = currVel.Y();
-        msg.twist.twist.linear.z = currVel.Z();
+        msg.vel.x = currVel.X();
+        msg.vel.y = currVel.Y();
+        msg.vel.z = currVel.Z();
 
-        msg.twist.twist.angular.x = currAngVel.X();
-        msg.twist.twist.angular.y = currAngVel.Y();
-        msg.twist.twist.angular.z = currAngVel.Z();
         statePub.publish(msg);
     }
     
