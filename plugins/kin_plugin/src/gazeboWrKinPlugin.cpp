@@ -56,8 +56,7 @@ class gazeboWrKinPlugin : public ModelPlugin
         double accRms = 0.9;
         double angvelRms = 0.05;
         eVector3 g(0,0,-9.8);
-        imuMesModel.setParams(accRms, angvelRms, g);
-        
+        imuMesModel.setParams(accRms, angvelRms, g); 
     }
     
     void initSubsPubs()
@@ -172,7 +171,13 @@ class gazeboWrKinPlugin : public ModelPlugin
     void goWithModel(double v, double u, double dt)
     {
         surfMotModel.calcNext(u, v, dt);
-        model->SetRelativePose(surfMotModel.getPosition());
+        model->SetRelativePose(surfMotModel.getIgnitionPosition());
+        
+        currPose = evector2ignition((eVector3)surfMotModel.getState().segment(0,3));
+        currAtt = evector2ignition((eVector4)surfMotModel.getState().segment(3,3));
+        currVel = evector2ignition((eVector3)surfMotModel.getState().segment(6,4));
+        currAngVel = evector2ignition((eVector3)surfMotModel.getAcc());
+        currAcc = evector2ignition((eVector3)surfMotModel.getRotVel());
     }
     
     void goWithForce(double v, double u, double dt, double t)
@@ -226,15 +231,12 @@ class gazeboWrKinPlugin : public ModelPlugin
     {
         double t = world->SimTime().Double();
         double dt = world->SimTime().Double() - lastTime.Double();
+        if (dt > 0.05) // TODO need to use supposed sim rate
+        {
+            dt = 0.05;
+        }
         lastTime = world->SimTime();
-        
-        currPose = baseLink->WorldInertialPose().Pos();
-        currAtt = baseLink->WorldInertialPose().Rot();
-        // use model params cause model is kinematic
-        currVel = surfMotModel.getLinearVel();
-        currAngVel = surfMotModel.getAcc();
-        currAcc = surfMotModel.getRotVel();
-        
+                
         double v = 1;
         double u = calc_ctrl(ignition2evector(currPose), ignition2evector(currAtt), splineCfsList, v);
         //double u = input_u;
@@ -287,6 +289,16 @@ class gazeboWrKinPlugin : public ModelPlugin
         eVector4 ignition2evector(const ignition::math::Quaterniond& iv)
         {
             return eVector4 (iv.W(), iv.X(), iv.Y(), iv.Z());
+        }
+        
+        ignition::math::Vector3d evector2ignition(const eVector3& iv)
+        {
+            return ignition::math::Vector3d(iv[0], iv[1], iv[2]);
+        }
+        
+        ignition::math::Quaterniond evector2ignition(const eVector4& iv)
+        {
+            return ignition::math::Quaterniond (iv[0], iv[1], iv[2], iv[3]);
         }
 };
 

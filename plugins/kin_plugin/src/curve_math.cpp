@@ -253,7 +253,6 @@ void SurfMotModel::calcNext(double u, double v, double dt)
     
     // state
     state << r1, v1, q1; 
-    
     yaw0 = yaw1;
 }
 
@@ -262,25 +261,20 @@ eVector10 SurfMotModel::getState()
     return state;
 }
     
-Position SurfMotModel::getPosition()
+Position SurfMotModel::getIgnitionPosition()
 {
     Position p(Vector(state[0], state[1], state[2]), Quaternion(state[6], state[7], state[8], state[9]));
     return p;
 }
 
-Vector SurfMotModel::getLinearVel()
+eVector3 SurfMotModel::getAcc()
 {
-    return Vector(state[3], state[4], state[5]);
-}
-
-Vector SurfMotModel::getAcc()
-{
-    return Vector(acc[0], acc[1], acc[2]);
+    return acc;
 }
     
-Vector SurfMotModel::getRotVel()
+eVector3 SurfMotModel::getRotVel()
 {
-    return Vector(rotVel[0], rotVel[1], rotVel[2]);
+    return rotVel;
 }
 
 /* END class SurfMotModel */

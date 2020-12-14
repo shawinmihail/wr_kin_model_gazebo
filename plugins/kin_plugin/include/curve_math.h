@@ -56,13 +56,13 @@ public:
     
     eVector10 getState();
     
-    Position getPosition();
+    Position getIgnitionPosition();
     
-    Vector getLinearVel();
+    eVector3 getLinearVel();
     
-    Vector getAcc();
+    eVector3 getAcc();
     
-    Vector getRotVel();
+    eVector3 getRotVel();
     
 private:
     double yaw0;
