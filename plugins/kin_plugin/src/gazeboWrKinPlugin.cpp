@@ -27,7 +27,7 @@ class gazeboWrKinPlugin : public ModelPlugin
 
     gazeboWrKinPlugin():
     lastTime(0.0)
-    ,surfMotModel(0.0, 2.0, 0.0)
+    ,surfMotModel(8.0, -2.0, 1.5)
     ,input_u(0)
     ,input_v(0)
     {
@@ -44,7 +44,8 @@ class gazeboWrKinPlugin : public ModelPlugin
         initSubsPubs();
         
         /* TODO define params in sdf and launch file*/
-        eVector3 refLatLonAlt(55.751244 * 3.1415 / 180.0, 37.618423 * 3.1415 / 180.0, 200);
+        double PI = 3.1415926535898;
+        eVector3 refLatLonAlt(55.944663 * PI / 180.0, 38.141938 * PI / 180.0, 200.0);
         eVector3 dr_base(-0.4, 0.0, 0.4);
         eVector3 dr_slave1(0.73, 0.23, 0.0);
         eVector3 dr_slave2(0.73, -0.23, 0.0);
@@ -56,7 +57,17 @@ class gazeboWrKinPlugin : public ModelPlugin
         double accRms = 0.9;
         double angvelRms = 0.05;
         eVector3 g(0,0,-9.8);
-        imuMesModel.setParams(accRms, angvelRms, g); 
+        imuMesModel.setParams(accRms, angvelRms, g);
+        
+        /*
+        double x0 = 8.2;
+        double y0 = 0.0;
+        double z0 = surf(x0, y0);
+        eVector4 q = quatFromEul(eVector3(0,0,3.14/2.0));
+        Position p0(Vector(x0, y0, z0), Quaternion(q[0], q[1], q[2], q[3]));
+        model->SetRelativePose(p0);
+        std::cout << p0 <<std::endl;
+        */
     }
     
     void initSubsPubs()
@@ -65,7 +76,9 @@ class gazeboWrKinPlugin : public ModelPlugin
         statePub = nodeHandle.advertise<wr_msgs::est_state_stamped>("wr_sensors/model_state", 1);
         imuMesPub = nodeHandle.advertise<wr_msgs::imu_stamped>("wr_sensors/imu", 1);
         gnnsMesPub = nodeHandle.advertise<wr_msgs::ninelives_triplet_stamped>("wr_sensors/nl_triplet", 1);
-        ctrlSub = nodeHandle.subscribe("wr_control/control", 1, &gazeboWrKinPlugin::ctrlCb, this);
+        throttleSub = nodeHandle.subscribe("wr_actuators/throttle", 1, &gazeboWrKinPlugin::throttleCb, this);
+        steerSub = nodeHandle.subscribe("wr_actuators/steer", 1, &gazeboWrKinPlugin::steerCb, this);
+        lightSub = nodeHandle.subscribe("wr_actuators/light", 1, &gazeboWrKinPlugin::lightCb, this);
     }
     
     void pubImu()
@@ -142,10 +155,21 @@ class gazeboWrKinPlugin : public ModelPlugin
         statePub.publish(msg);
     }
     
-    void ctrlCb(const wr_msgs::ctrl_stamped& msg)
+    void throttleCb(const wr_msgs::ctrl_stamped& msg)
     {
-        input_u = msg.ang;
-        input_v = msg.vel;
+        input_v = msg.vel * 3.0 / 100.0;
+    }
+    
+    void steerCb(const wr_msgs::ctrl_stamped& msg)
+    {
+        input_u = msg.ang * 3.1415926535898 / 180.0;
+        double H =  0.725;
+        input_u = tan(input_u)/H;
+    }
+    
+    void lightCb(const wr_msgs::ctrl_stamped& msg)
+    {
+        input_l = msg.light;
     }
     
     void goWithTraj(double t)
@@ -174,8 +198,8 @@ class gazeboWrKinPlugin : public ModelPlugin
         model->SetRelativePose(surfMotModel.getIgnitionPosition());
         
         currPose = evector2ignition((eVector3)surfMotModel.getState().segment(0,3));
-        currAtt = evector2ignition((eVector4)surfMotModel.getState().segment(3,3));
-        currVel = evector2ignition((eVector3)surfMotModel.getState().segment(6,4));
+        currAtt = evector2ignition((eVector4)surfMotModel.getState().segment(6,4));
+        currVel = evector2ignition((eVector3)surfMotModel.getState().segment(3,3));
         currAngVel = evector2ignition((eVector3)surfMotModel.getAcc());
         currAcc = evector2ignition((eVector3)surfMotModel.getRotVel());
     }
@@ -237,11 +261,11 @@ class gazeboWrKinPlugin : public ModelPlugin
         }
         lastTime = world->SimTime();
                 
-        double v = 1;
-        double u = calc_ctrl(ignition2evector(currPose), ignition2evector(currAtt), splineCfsList, v);
-        //double u = input_u;
-        //double v = input_v;
-        
+        //double v = 1;
+        //double u = calc_ctrl(ignition2evector(currPose), ignition2evector(currAtt), splineCfsList, v);
+        double u = input_u;
+        double v = input_v;
+                
         goWithModel(v, u, dt);
         
         /* TODO pub clear acc*/
@@ -262,6 +286,7 @@ class gazeboWrKinPlugin : public ModelPlugin
     private:
         double input_u;
         double input_v;
+        int input_l;
     private:
         GnnsTripletMeasurmentsModel gnnsMesModel;
         ImuMeasurmentsModel imuMesModel;
@@ -276,7 +301,9 @@ class gazeboWrKinPlugin : public ModelPlugin
         std::vector<eMatrix43> splineCfsList;
     private:
         ros::NodeHandle nodeHandle;
-        ros::Subscriber ctrlSub;
+        ros::Subscriber throttleSub;
+        ros::Subscriber steerSub;
+        ros::Subscriber lightSub;
         ros::Publisher statePub;
         ros::Publisher imuMesPub;
         ros::Publisher gnnsMesPub;

@@ -5,6 +5,27 @@
 #include "surf_fcn_terminate.h"
 #include <iostream>
 
+eVector4 quatFromEul(const eVector3& eul)
+{
+	 float roll = eul[0];
+	 float pitch = eul[1];
+	 float yaw = eul[2];
+
+	 float cy = cos(yaw * 0.5f);
+	 float sy = sin(yaw * 0.5f);
+	 float cr = cos(roll * 0.5f);
+	 float sr = sin(roll * 0.5f);
+	 float cp = cos(pitch * 0.5f);
+	 float sp = sin(pitch * 0.5f);
+
+	 float q0 = cy * cr * cp + sy * sr * sp;
+	 float q1 = cy * sr * cp - sy * cr * sp;
+	 float q2 = cy * cr * sp + sy * sr * cp;
+	 float q3 = sy * cr * cp - cy * sr * sp;
+
+	 return eVector4(q0, q1, q2 ,q3);
+}
+
 eVector4 quatMultiply(const eVector4& q, const eVector4& r)
 {
 	eVector4 p;
@@ -241,8 +262,17 @@ void SurfMotModel::calcNext(double u, double v, double dt)
     
     // v
     double v_curr = v0.norm();
-    double a = Kv * (v - v_curr);
-    eVector3 v1 = quatRotate(q0, eVector3(v_curr + a * dt, 0, 0));
+    double a = Kv * (fabs(v) - v_curr);
+    
+    eVector3 v1;
+    if (v > 0)
+    {
+        v1 = quatRotate(q0, eVector3(v_curr + a * dt, 0, 0));
+    }
+    else
+    {
+        v1 = quatRotate(q0, -eVector3(v_curr + a * dt, 0, 0));
+    }
     
     // a w
     acc = (v1 - v0) / dt;

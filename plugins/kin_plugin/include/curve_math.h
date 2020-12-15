@@ -20,6 +20,8 @@ typedef Eigen::Matrix<double, 10, 1>  eVector10;
 
 /*BEGIN quat*/
 
+eVector4 quatFromEul(const eVector3& eul);
+
 eVector3 quatRotate(const eVector4& q, const eVector3& v);
 
 eVector4 quatMultiply(const eVector4& q, const eVector4& r);
